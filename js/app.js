@@ -37,7 +37,9 @@ import DOM from 'react-dom'
 import React, {Component} from 'react'
 import Backbone from 'bbfire'
 import Firebase from 'firebase'
+// window.BB = Backbone
 
+var ref = new Firebase("http://hushhush.firebaseio.com")
 
 var UserModel = Backbone.Firebase.Model.extend({
     initialize: function(uid) {
@@ -45,11 +47,104 @@ var UserModel = Backbone.Firebase.Model.extend({
     }
 })
 
+var QueryByEmail = Backbone.Firebase.Collection.extend({
+    initialize: function(targetEmail) {
+        this.url = ref.child('users').orderByChild('email').equalTo(targetEmail)
+    },
+    autoSync: false
+})
+
+// collection that will sync with a specific user's "messages" schema
+var UserMessages = Backbone.Firebase.Collection.extend({
+    initialize: function(uid) {
+        this.url = `http://hushhush.firebaseio.com/users/${uid}/messages`
+    }
+})
+
+// inside component
 var DashPage = React.createClass({
+    
+    componentWillMount: function() {
+        var self = this
+        this.props.msgColl.on('sync',function() {
+            self.forceUpdate()
+        })
+    },
+
     render: function() {
         return (
             <div className="dashboard">
                 <a href="#logout" >log out</a>
+                <Messenger />
+                <Inbox msgColl={this.props.msgColl} />
+            </div>
+            )
+    }
+})
+
+var Inbox = React.createClass({
+
+    _makeMessage: function(mod,i) {
+        return <Message msgData={mod} key={i} />
+    },
+
+    render: function() {
+        return (
+            <div className="inbox">
+                {this.props.msgColl.map(this._makeMessage)}
+            </div>
+            )
+    }
+})
+
+var Message = React.createClass({
+
+    render: function() {
+        var displayType = "block"
+        if (this.props.msgData.id === undefined) displayType = "none"
+        return (
+            <div style={{display:displayType}} className="message" >
+                <p className="author">from {this.props.msgData.get('sender_email')}</p>
+                <p className="content">{this.props.msgData.get('content')}</p>
+            </div>
+            )
+    }
+})
+
+var Messenger = React.createClass({
+
+    targetEmail: '',
+    msg: '',
+
+    _setTargetEmail: function(e) {
+        this.targetEmail = e.target.value
+    },
+
+    _setMsg: function(e) {
+        this.msg = e.target.value
+    },
+
+    _submitMessage: function() {
+        var queriedUsers = new QueryByEmail(this.targetEmail)
+        var self = this
+        queriedUsers.fetch()
+        queriedUsers.on('sync', function() {
+            var usrId = queriedUsers.models[0].get('id')
+            var usrMsgCollection = new UserMessages(usrId)
+            usrMsgCollection.create({
+                content: self.msg,
+                sender_email: ref.getAuth().password.email,
+                sender_id: ref.getAuth().uid
+            })
+        })
+    },
+
+    render: function() {
+        return (
+            <div className="messager" >
+                <input placeholder="recipient email" onChange={this._setTargetEmail} />
+                <textarea placeholder="your message here" onChange={this._setMsg} />
+                <button onClick={this._submitMessage} >submit!</button>
             </div>
             )
     }
@@ -109,6 +204,10 @@ function app() {
             this.ref = new Firebase('https://hushhush.firebaseio.com/')
             window.ref = this.ref
 
+            if (!this.ref.getAuth()) {
+                location.hash = "splash"
+            }
+
             this.on('route', function() {
                 if (!this.ref.getAuth()) {
                     location.hash = "splash"
@@ -127,7 +226,9 @@ function app() {
         },
 
         showDashboard: function() {
-            DOM.render(<DashPage />,document.querySelector('.container'))
+            var uid = ref.getAuth().uid
+            var msgColl = new UserMessages(uid)
+            DOM.render(<DashPage msgColl={msgColl} />,document.querySelector('.container'))
         },
 
         _logUserIn: function(email,password){
@@ -146,6 +247,7 @@ function app() {
 
         _createUser: function(email,password,realName) {
             console.log(email, password)
+            var self = this
             this.ref.createUser({
                 email: email,
                 password: password,
@@ -153,8 +255,12 @@ function app() {
                 if (error) console.log(error)
                 else {
                     var userMod = new UserModel(authData.uid)
-                    userMod.set({name: realName})   
-
+                    userMod.set({
+                        name: realName, 
+                        email:email,
+                        id: authData.uid
+                    })  
+                    self._logUserIn(email,password) 
                 }
             })
         }

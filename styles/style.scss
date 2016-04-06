@@ -131,16 +131,20 @@ body {
  .container {
     text-align: center;
 
+    input {
+        display: block;
+        padding: 1em;
+        width: 250px;
+        margin: 3em auto;
+    }
+
+    textarea {
+        display: block;
+    }
+
     .loginContainer {
         border: 5px solid #555;
         text-align: center;
         padding: 1em;
-
-        input {
-            display: block;
-            padding: 1em;
-            width: 250px;
-            margin: 3em auto;
-        }
     }
  }
