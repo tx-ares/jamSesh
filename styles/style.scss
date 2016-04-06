@@ -127,3 +127,18 @@ body {
 /**
  * App code
  */
+
+ .container {
+    text-align: center;
+
+    .loginContainer {
+        border: 5px solid #555;
+        text-align: center;
+
+        input {
+            display: block;
+            margin: 5em;
+            padding: 5em;
+        }
+    }
+ }

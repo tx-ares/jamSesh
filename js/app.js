@@ -35,11 +35,45 @@ import fetch from "isomorphic-fetch"
 
 import DOM from 'react-dom'
 import React, {Component} from 'react'
+import Backbone from 'bbfire'
+
+var SplashPage = React.createClass({
+    render: function() {
+        return (
+            <div className="loginContainer">
+                <input />
+                <input type="password" />
+                <div className="splashButtons" >
+                    <button>sign up</button>
+                    <button>log in</button>
+                </div>
+            </div>
+            )
+    }
+})
 
 function app() {
     // start app
     // new Router()
-    DOM.render(<p>test 2</p>, document.querySelector('.container'))
+    var PsstRouter = Backbone.Router.extend({
+        routes: {
+            splash: "showSplashPage",
+            dash: "showDashboard"
+        },
+
+        initialize: function() {
+
+        },
+
+        showSplashPage: function() {
+
+            DOM.render(<SplashPage />, document.querySelector('.container'))
+        },
+
+        showDashboard: function() {
+
+        }
+    })
 }
 
 app()
