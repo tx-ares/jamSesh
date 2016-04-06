@@ -134,11 +134,13 @@ body {
     .loginContainer {
         border: 5px solid #555;
         text-align: center;
+        padding: 1em;
 
         input {
             display: block;
-            margin: 5em;
-            padding: 5em;
+            padding: 1em;
+            width: 250px;
+            margin: 3em auto;
         }
     }
  }
