@@ -128,8 +128,61 @@ body {
  * App code
  */
 
- .container {
+ 
+ body { 
+    background: url("http://i.imgur.com/aG5qrhF.jpg?1") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+    .loginContainer {
+        // border: 5px solid #555;
+        text-align: center;
+        padding: 1em;
+        margin-top: 30px;
+    }
+
+    .banner {
+        display: block;
+        width: 100%;
+        border: 3px solid violet;
+        background-color: rgba(100,10,190,.5);
+        height: 30vh;
+    }
+
+ .dashContainer {
     text-align: center;
+    color: #fff;
+
+    .profile {
+        display: inline-block;
+        width: 30%;
+        margin: 5% auto;
+        background-color: rgba(140,140,140,.5);
+        border: 3px solid rgba(140,140,140,1); 
+
+        .profilePic{
+            border-radius: 10px;
+        }
+    }
+
+    .messenger {
+        display: inline-block;
+        width: 50%;
+        margin: 5% auto;
+        background-color: rgba(240,40,140,.5);
+        border: 3px solid rgba(240,40,140,1);
+
+        textarea {
+            margin: 20px auto;
+        }
+    }
+
+    li {
+        list-style: none;
+    }
 
     input {
         display: block;
@@ -141,10 +194,5 @@ body {
     textarea {
         display: block;
     }
+}
 
-    .loginContainer {
-        border: 5px solid #555;
-        text-align: center;
-        padding: 1em;
-    }
- }
