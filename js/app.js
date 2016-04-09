@@ -119,7 +119,8 @@ var Messenger = React.createClass({
                         <li>Instruments</li>
                         <li>Genre</li>
                         <li><button>Create Band</button></li>
-                        <li>Delete Band</li>
+                        <li><a href="#">Join Band</a></li>
+                        <li><a href="#">Delete Band</a></li>
                     </ul>
                 </div>
                 <div className="messenger">
@@ -160,7 +161,7 @@ var SplashPage = React.createClass({
     render: function() {
         return (
             <div className="splashContainer">
-                <img className="banner"></img>
+                <img className="banner" src="http://i.imgur.com/0Y0lbKB.png?1"></img>
 
                 <div className="loginContainer">
                     <input onChange={this._updateEmail} />
@@ -178,7 +179,7 @@ var SplashPage = React.createClass({
 function app() {
     // start app
     // new Router()
-    var PsstRouter = Backbone.Router.extend({
+    var Router = Backbone.Router.extend({
         routes: {
             'splash': "showSplashPage",
             'dash': "showDashboard",
@@ -251,7 +252,7 @@ function app() {
         }
     })
 
-    var pr = new PsstRouter()
+    var pr = new Router()
     Backbone.history.start()
 }
 
