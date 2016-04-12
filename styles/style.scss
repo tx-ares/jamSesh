@@ -189,7 +189,7 @@ a {
         display: inline-block;
         width: 45%;
         vertical-align: top;
-        margin: 5% 5%;
+        margin: 0% 5%;
         background-color: rgba(40,240,40,.5);
         border: 3px solid rgba(40,240,40,1);
         
@@ -210,8 +210,6 @@ a {
                     margin: 2px auto;
 
                 }
-        
-            
         }
     }
 
@@ -241,9 +239,6 @@ a {
     textarea {
         display: block;
     }
-
-    // p {
-    //     display: inline-block;
-    // }
+    
 }
 

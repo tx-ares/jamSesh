@@ -40,20 +40,31 @@ var UserMessages = Backbone.Firebase.Collection.extend({
     }
 })
 
-// inside component
+// Dash Page Components //////////////////////////////
 
 var DashPage = React.createClass({
 
     _handleCreateBand: function(evt) {
         evt.preventDefault()
         var band = new BandCollection() 
+        // var membership = new MembershipCollection()
     // console.log("Part 1 test ok")
 
-        this.props.membershipColl.create({
-            memberid: '{this.users.id}'
+        var newModel = this.props.bandColl.create({
+            name: 'White Stripes',
+            memberid: '123'
         })
 
-    console.log("Create band worked!")
+        console.log(newModel)
+
+        console.log("Create band worked!")
+
+        // this.props.membershipColl.create({
+        //     memberid: '123'
+        // })
+
+        // console.log("Create membership worked!")
+
     },
     
     // componentWillMount: function() {
@@ -73,6 +84,60 @@ var DashPage = React.createClass({
             )
     }
 })
+
+var Profile = React.createClass({
+
+    render: function(){
+        return (
+        <div>
+            <div className="profile">
+                    <div className="imgContainer">
+                        <img className="profilePic" src="http://i.imgur.com/kQgQcDw.jpg?1"></img>
+                    </div>
+                    <ul>
+                        <li>Jimmy Sax</li>
+                        <li>Instruments: Guitar, Saxophone</li>
+                        <li>Genre: Jazz</li>
+                    </ul>
+            </div>
+                <div className="createBandBar">
+                        <ul>
+                            <button onClick={this.props._handleCreateBand}>Create Band</button>
+                        </ul>
+                </div>
+            <MyBands />
+        </div>
+            )
+    }
+})
+
+var MyBands = React.createClass({
+
+    // _addBand: function(keyEvent) {
+    //     if (keyEvent.keyCode === 13) {
+
+    //     }
+    // },
+
+    render: function(){
+        return (
+            
+                <div className="bandBar">
+                    <img className="bandPic" src="http://i.imgur.com/5NLuzJe.png">
+                    </img>
+                        <div className="infoContainer">
+                            {/* <p>{this.props.bandColl.name}</p> */}
+                            <p>White Stripes</p>
+                            <p><a href="#">Delete Band</a></p>
+                        </div>
+                        
+                </div>
+            
+            )
+    }
+})
+
+// End Dash Page Components //////////////////////////
 
 var Inbox = React.createClass({
 
@@ -99,51 +164,6 @@ var Message = React.createClass({
                 <p className="author">from {this.props.msgData.get('sender_email')}</p>
                 <p className="content">{this.props.msgData.get('content')}</p>
             </div>
-            )
-    }
-})
-
-var Profile = React.createClass({
-
-    render: function(){
-        return (
-        <div>
-            <div className="profile">
-                    <div className="imgContainer">
-                        <img className="profilePic" src="http://i.imgur.com/kQgQcDw.jpg?1"></img>
-                    </div>
-                    <ul>
-                        <li>Jimmy Sax</li>
-                        <li>Instruments: Guitar, Saxophone</li>
-                        <li>Genre: Jazz</li>
-                    </ul>
-            </div>
-                <div className="createBandBar">
-                        <ul>
-                            <button onClick={this.props._handleCreateBand}>Create Band</button>
-                        </ul>
-                </div>
-        </div>
-            )
-    }
-})
-
-var MyBands = React.createClass({
-
-    render: function(){
-        return (
-            
-                <div className="bandBar">
-                    <img className="bandPic" src="http://i.imgur.com/5NLuzJe.png">
-                    </img>
-                        <div className="infoContainer">
-                            {/* <p>{this.props.bandColl.name}</p> */}
-                            <p>White Stripes</p>
-                            <p><a href="#">Delete Band</a></p>
-                        </div>
-                        
-                </div>
-            
             )
     }
 })
@@ -186,6 +206,8 @@ var Messenger = React.createClass({
             )
     }
 })
+
+// Splash Page Components ////////////////////////////
 
 var SplashPage = React.createClass({
     email: '',
@@ -230,6 +252,8 @@ var SplashPage = React.createClass({
     }
 })
 
+// End Splash Page Components ////////////////////////
+
 function app() {
     // start app
     // new Router()
@@ -267,13 +291,13 @@ function app() {
 
         showDashPage: function() {
             var uid = ref.getAuth().uid
-            // var msgColl = new UserMessages(uid)
             var bandColl = new BandCollection()
             var membershipColl = new MembershipCollection()
             DOM.render(<DashPage bandColl={bandColl} membershipColl={membershipColl}/> ,document.querySelector('.container'))
         },
 
         showBandPage: function() {
+            var msgColl = new UserMessages(uid)
             DOM.render(<BandPage /> ,document.querySelector('.container'))
         },
 
