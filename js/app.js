@@ -134,8 +134,8 @@ var MyBands = React.createClass({
         return (
             
                 <div className="bandBar">
-                    <div className="bandPic">
-                    </div>
+                    <img className="bandPic" src="http://i.imgur.com/5NLuzJe.png">
+                    </img>
                         <div className="infoContainer">
                             {/* <p>{this.props.bandColl.name}</p> */}
                             <p>White Stripes</p>
