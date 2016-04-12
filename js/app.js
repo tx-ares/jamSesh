@@ -6,7 +6,6 @@ import React, {Component} from 'react'
 import Backbone from 'bbfire'
 import Firebase from 'firebase'
 // window.BB = Backbone
-
 var ref = new Firebase("http://jamcamp.firebaseio.com")
 
 var UserModel = Backbone.Firebase.Model.extend({
@@ -22,6 +21,18 @@ var QueryByEmail = Backbone.Firebase.Collection.extend({
     autoSync: false
 })
 
+var BandCollection = Backbone.Firebase.Collection.extend({
+    initialize: function() {
+        this.url = `http://jamcamp.firebaseio.com/bands/`
+    }
+})
+
+var MembershipCollection = Backbone.Firebase.Collection.extend({
+    initialize: function() {
+        this.url = `http://jamcamp.firebaseio.com/memberships/`
+    }
+})
+
 // collection that will sync with a specific user's "messages" schema
 var UserMessages = Backbone.Firebase.Collection.extend({
     initialize: function(uid) {
@@ -30,21 +41,34 @@ var UserMessages = Backbone.Firebase.Collection.extend({
 })
 
 // inside component
+
 var DashPage = React.createClass({
-    
-    componentWillMount: function() {
-        var self = this
-        this.props.msgColl.on('sync',function() {
-            self.forceUpdate()
+
+    _handleCreateBand: function(evt) {
+        evt.preventDefault()
+        var band = new BandCollection() 
+    // console.log("Part 1 test ok")
+
+        this.props.membershipColl.create({
+            memberid: '{this.users.id}'
         })
+
+    console.log("Create band worked!")
     },
+    
+    // componentWillMount: function() {
+    //     var self = this
+    //     this.props.msgColl.on('sync',function() {
+    //         self.forceUpdate()
+    //     })
+    // },
 
     render: function() {
         return (
-            <div className="dashboard">
-                <a href="#logout" >log out</a>
-                <Messenger />
-                <Inbox msgColl={this.props.msgColl} />
+            <div className="dashContainer">
+                <a href="#logout">log out</a>
+                <Profile _handleCreateBand={this._handleCreateBand}/>
+                <MyBands bandColl={this.props.bandColl}/>
             </div>
             )
     }
@@ -79,6 +103,51 @@ var Message = React.createClass({
     }
 })
 
+var Profile = React.createClass({
+
+    render: function(){
+        return (
+        <div>
+            <div className="profile">
+                    <div className="imgContainer">
+                        <img className="profilePic" src="http://i.imgur.com/kQgQcDw.jpg?1"></img>
+                    </div>
+                    <ul>
+                        <li>Jimmy Sax</li>
+                        <li>Instruments: Guitar, Saxophone</li>
+                        <li>Genre: Jazz</li>
+                    </ul>
+            </div>
+                <div className="createBandBar">
+                        <ul>
+                            <button onClick={this.props._handleCreateBand}>Create Band</button>
+                        </ul>
+                </div>
+        </div>
+            )
+    }
+})
+
+var MyBands = React.createClass({
+
+    render: function(){
+        return (
+            
+                <div className="bandBar">
+                    <div className="bandPic">
+                    </div>
+                        <div className="infoContainer">
+                            {/* <p>{this.props.bandColl.name}</p> */}
+                            <p>White Stripes</p>
+                            <p><a href="#">Delete Band</a></p>
+                        </div>
+                        
+                </div>
+            
+            )
+    }
+})
+
 var Messenger = React.createClass({
 
     targetEmail: '',
@@ -109,26 +178,11 @@ var Messenger = React.createClass({
 
     render: function() {
         return (
-            <div className="dashContainer">
-                <div className="profile">
-                    <div className="imgContainer">
-                        <img className="profilePic" src="http://i.imgur.com/kQgQcDw.jpg?1"></img>
-                    </div>
-                    <ul>
-                        <li>Name</li>
-                        <li>Instruments</li>
-                        <li>Genre</li>
-                        <li><button>Create Band</button></li>
-                        <li><a href="#">Join Band</a></li>
-                        <li><a href="#">Delete Band</a></li>
-                    </ul>
-                </div>
                 <div className="messenger">
                     <input placeholder="recipient email" onChange={this._setTargetEmail} />
                     <textarea placeholder="your message here" onChange={this._setMsg} />
                     <button onClick={this._submitMessage} >submit!</button> 
-                </div>
-            </div>
+                </div> 
             )
     }
 })
@@ -161,14 +215,14 @@ var SplashPage = React.createClass({
     render: function() {
         return (
             <div className="splashContainer">
-                <img className="banner" src="http://i.imgur.com/0Y0lbKB.png?1"></img>
+                <img className="banner" src="http://i.imgur.com/xZIPVAG.png?1"></img>
 
                 <div className="loginContainer">
                     <input onChange={this._updateEmail} />
                     <input onChange={this._updatePassword} type="password" />
                     <div className="splashButtons" >
-                        <button onClick={this._handleSignUp} >sign up</button>
-                        <button onClick={this._handleLogIn} >log in</button>
+                        <button onClick={this._handleSignUp} >Sign up</button>
+                        <button onClick={this._handleLogIn} >Log in</button>
                     </div>
                 </div>
             </div>
@@ -182,7 +236,8 @@ function app() {
     var Router = Backbone.Router.extend({
         routes: {
             'splash': "showSplashPage",
-            'dash': "showDashboard",
+            'dash': "showDashPage",
+            'band': "showBandPage",
             'logout': "doLogOut"
         },
 
@@ -207,14 +262,19 @@ function app() {
         },
 
         showSplashPage: function() {
-
             DOM.render(<SplashPage logUserIn={this._logUserIn.bind(this)} createUser={this._createUser.bind(this)} />, document.querySelector('.container'))
         },
 
-        showDashboard: function() {
+        showDashPage: function() {
             var uid = ref.getAuth().uid
-            var msgColl = new UserMessages(uid)
-            DOM.render(<DashPage msgColl={msgColl} />,document.querySelector('.container'))
+            // var msgColl = new UserMessages(uid)
+            var bandColl = new BandCollection()
+            var membershipColl = new MembershipCollection()
+            DOM.render(<DashPage bandColl={bandColl} membershipColl={membershipColl}/> ,document.querySelector('.container'))
+        },
+
+        showBandPage: function() {
+            DOM.render(<BandPage /> ,document.querySelector('.container'))
         },
 
         _logUserIn: function(email,password){

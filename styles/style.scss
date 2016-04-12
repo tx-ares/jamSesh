@@ -160,18 +160,58 @@ a {
 
  .dashContainer {
 
-    text-align: center;
+    // text-align: left;
     color: #ddd;
 
     .profile {
         display: inline-block;
-        width: 30%;
-        margin: 5% auto;
+        max-width: 30%;
+        margin: 5% 5%;
         background-color: rgba(140,140,140,.5);
         border: 3px solid rgba(140,140,140,1); 
 
         .profilePic{
             border-radius: 10px;
+        }
+
+    }
+
+    .createBandBar {
+        display: inline-block;
+        width: 45%;
+        vertical-align: top;
+        margin: 5% 5%;
+        background-color: rgba(40,240,140,.5);
+        border: 3px solid rgba(40,240,140,1);
+        }
+
+    .bandBar {
+        display: inline-block;
+        width: 45%;
+        vertical-align: top;
+        margin: 5% 5%;
+        background-color: rgba(40,240,40,.5);
+        border: 3px solid rgba(40,240,40,1);
+        
+        .bandPic {
+                display: inline-block;
+                border-radius:50px;
+                width:50px;
+                height:50px;
+                margin:-2px 10px;
+                background-color:rgba(40,40,40,.5);
+                border: 3px solid rgba(40,40,40,1);
+            }
+
+            .infoContainer {
+                display:inline-block;
+
+                p {
+                    margin: 2px auto;
+
+                }
+        
+            
         }
     }
 
@@ -201,5 +241,9 @@ a {
     textarea {
         display: block;
     }
+
+    // p {
+    //     display: inline-block;
+    // }
 }
 
