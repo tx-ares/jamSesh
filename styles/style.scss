@@ -128,6 +128,9 @@ body {
  * App code
  */
 
+ // div {
+ //    display: inline-block;
+ // }
  
  body { 
     background-color: rgb(11, 34, 63);
@@ -162,6 +165,49 @@ a {
 
     // text-align: left;
     color: #ddd;
+
+    .navBar {
+
+        a {
+            background: #555;
+            color: #ddd;
+            border-radius: 5%;
+            text-decoration: none;
+            padding: 1em 2em;
+            margin: 2.5em;
+        }
+    }
+    .members {
+        border: 3px solid #555;
+        width: 20%;
+        text-align: left;
+        display: inline-block;
+        vertical-align: top;
+
+        input {
+            display: block;
+            padding: .5em;
+            width: 100%;
+            margin: 3em auto;
+        }
+
+        .member {
+            button {
+                display: inline-block;
+            }
+            p {
+                display: inline-block;
+            }
+        }
+    }
+
+    .message {
+        border: 3px solid #555;
+        width: 80%;
+        display: inline-block;
+        vertical-align: top;
+    }
+ 
 
     .profile {
         display: inline-block;
@@ -239,6 +285,6 @@ a {
     textarea {
         display: block;
     }
-    
+
 }
 
