@@ -153,9 +153,9 @@ var BandPage = React.createClass({
             <div className="dashContainer" >
                 <NavBar />
                 <h1>My Band</h1>
-                <div className="scheduleContainer"></div>
+                <div className="scheduleContainer">This will contain a weekly schedule containing practice times and gigs. </div>
                 <MemberList bandId={this.props.bandId} memberColl={this.props.memberColl} />
-                <Posts bandId={this.props.bandId} postColl={this.props.postColl} />
+                {/*<Posts bandId={this.props.bandId} postColl={this.props.postColl} />*/}
             </div>
             )
     }
