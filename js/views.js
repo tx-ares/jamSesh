@@ -41,16 +41,22 @@ var DashPage = React.createClass({
 
     render: function() {
         
-        var content = <div className="dashContainer"></div>
+        var content = ''
+        // var content2 = ''
         if (this.props.view === "createBand") {
             content = <CreateBand />
         }
+
+        // if (ref.users.bandId) {
+        //     content2 = <MyBands />
+        // }
 
         return (
             <div className="dashContainer">
                 <NavBar />
                 <Profile />
-                {content}
+                 {content}
+                 
             </div>
             )
     }
@@ -69,54 +75,11 @@ var NavBar = React.createClass({
     }
 })
 
-// var DashPage = React.createClass({
-
-//     // _handleCreateBand: function(evt) {
-//     //     evt.preventDefault()
-//     //     var band = new BandCollection() 
-//     //     // var membership = new MembershipCollection()
-//     // // console.log("Part 1 test ok")
-
-//     //     var newModel = this.props.bandColl.create({
-//     //         name: 'White Stripes',
-//     //         memberid: '123'
-//     //     })
-
-//     //     console.log(newModel)
-
-//     //     console.log("Create band worked!")
-
-//     //     // this.props.membershipColl.create({
-//     //     //     memberid: '123'
-//     //     // })
-
-//     //     // console.log("Create membership worked!")
-
-//     // },
-    
-//     // componentWillMount: function() {
-//     //     var self = this
-//     //     this.props.msgColl.on('sync',function() {
-//     //         self.forceUpdate()
-//     //     })
-//     // },
-
-//     render: function() {
-//         return (
-//             <div className="dashContainer">
-//                 <a href="#logout">log out</a>
-//                 {/* <Profile _handleCreateBand={this._handleCreateBand}/> */}
-//                 <MyBands bandColl={this.props.bandColl}/>
-//             </div>
-//             )
-//     }
-// })
-
 var Profile = React.createClass({
 
     render: function(){
         return (
-        <div>
+        
             <div className="profile">
                     <div className="imgContainer">
                         <img className="profilePic" src="http://i.imgur.com/kQgQcDw.jpg?1"></img>
@@ -127,39 +90,43 @@ var Profile = React.createClass({
                         <li>Genre: Jazz</li>
                     </ul>
             </div>
-                {/* <div className="createBandBar">
-                        <ul>
-                            <button onClick={this.props._handleCreateBand}>Create Band</button>
-                        </ul>
-                </div> */}
-            {/* <MyBands /> */}
-        </div>
+
             )
+    }
+})
+
+var Members = React.createClass({
+
+    render: function() {
+        return(
+            <div className="bandMembers">
+
+            </div>
+
+            )
+
     }
 })
 
 var MyBands = React.createClass({
 
-    // _addBand: function(keyEvent) {
-    //     if (keyEvent.keyCode === 13) {
+    _handleBands: function(){
+        var BandsArr = this.props.bandsColl.map(function(bands, i){
+            console.log(band)
+            return(
+                <p key={i}> {bands.get("name")} </p>
+                )
+        })
+        return BandsArr
+    },
 
-    //     }
-    // },
-
-    render: function(){
+    render: function() {
+       
         return (
-            
-                <div className="bandBar">
-                    <img className="bandPic" src="http://i.imgur.com/5NLuzJe.png">
-                    </img>
-                        <div className="infoContainer">
-                            {/* <p>{this.props.bandColl.name}</p> */}
-                            <p>White Stripes</p>
-                            <p><a href="#">Delete Band</a></p>
-                        </div>
-                        
-                </div>
-            
+            <div className="myBands">
+                    {this._handleBands()}
+            </div>
+        
             )
     }
 })
@@ -172,17 +139,125 @@ var BandPage = React.createClass({
 
     componentWillMount: function() {
         var self = this
-        this.props.memberColl.on('sync update',function() {
+        this.props.memberColl.on('sync update',function(){
             self.forceUpdate()
         })
+        this.props.postColl.on('sync update', function(){
+            self.forceUpdate()
+        })
+        
     },
 
     render: function() {
         return (
-            <div className="BandPage" >
+            <div className="dashContainer" >
                 <NavBar />
-                <h3>My Band</h3>
+                <h1>My Band</h1>
+                <div className="scheduleContainer"></div>
                 <MemberList bandId={this.props.bandId} memberColl={this.props.memberColl} />
+                <Posts bandId={this.props.bandId} postColl={this.props.postColl} />
+            </div>
+            )
+    }
+})
+
+var MemberList = React.createClass({
+
+    _addMember: function(keyEvent){
+        if (keyEvent.keyCode === 13) {
+            var email = keyEvent.target.value
+            var qbe = new Collections.QueryByEmail(email)
+            var component = this
+            qbe.fetchWithPromise().then(function() {
+                var userToAdd = qbe.models[0]
+                if (userToAdd.id) {
+                    Actions.addMember(component.props.bandId,userToAdd)
+                    component.props.memberColl.add(userToAdd)
+                }
+                else alert("no user with that email!")
+            })
+            
+        }
+        
+    },
+
+    _genMember: function(MemberModel,i) {
+        return <Member remover={this._remover} model={MemberModel} key={i} />
+    },
+
+    _remover: function(model) {
+        this.props.memberColl.remove(model)
+    },
+
+    render: function() {
+        return (
+            <div className="members">
+                <h4>The Band</h4>
+                {this.props.memberColl.map(this._genMember)}
+                <input placeholder="add a member by email" onKeyDown={this._addMember} />
+            </div>
+            )
+    }
+})
+
+var Member = React.createClass({
+
+    _boot: function() {
+        // unset the Member's band_id
+        this.props.model.set({band_id: ''})
+
+        // remove the Member from the MemberColl
+        this.props.remover(this.props.model)
+    },
+
+    render: function() {
+        var styleObj = {display: "block"}
+        if (!this.props.model.id) styleObj.display = "none"
+
+        return (
+            <div style={styleObj} className="member">
+                <p>{this.props.model.get('email')}</p><button onClick={this._boot}>X</button>
+            </div>
+                )
+    }
+})
+
+var Posts = React.createClass({
+
+    _newPost: function(keyEvent) {
+        if (keyEvent.keyCode === 13) {
+            var postText = keyEvent.target.value
+            keyEvent.target.value = ''
+            var postObj = {
+                text: postText,
+                band_id: this.props.bandId
+            }
+            Actions.addpost(postObj)
+
+        }
+    },
+
+    _handlePosts: function(){
+        var postArr = this.props.postColl.map(function(post, i){
+            console.log(post)
+            return(
+                <p key={i}> {post.get("text")} </p>
+                )
+        })
+        return postsArr
+    },
+
+    render: function() {
+       
+        return (
+            <div className="posts">
+                <textarea 
+                    placeholder="create a new post" 
+                    onKeyDown={this._newPost} 
+                />
+                <div>
+                    {this._handlePosts()}
+                </div>
             </div>
             )
     }

@@ -34,14 +34,25 @@ var Collections = {
         autoSync: false
     }),
 
-     BandCollection : Backbone.Firebase.Collection.extend({
-           url : "http://jamcamp.firebaseio.com/bands"
+     UsersByBandId: Backbone.Firebase.Collection.extend({
+        initialize: function(targetBandId) {
+            this.url = ref.child('users').orderByChild('band_id').equalTo(targetBandId)
+        }
     }),
 
-     MembershipCollection : Backbone.Firebase.Collection.extend({
-        url : "http://jamcamp.firebaseio.com/memberships"
-    }),
+     PostByBandId: Backbone.Firebase.Collection.extend({
+        initialize: function(targetBandId) {
+            this.url= ref.child('users').orderByChild('band_id').equalTo(targetBandId)
+        }
+     }), 
 
+      BandCollection : Backbone.Firebase.Collection.extend({
+        url : "http://jamcamp.firebaseio.com/bands"
+    }),   
+
+     PostCollection: Backbone.Firebase.Collection.extend({
+        url: "http://jamcamp.firebaseio.com/posts"
+     }),
     // collection that will sync with a specific user's "messages" schema
      UserMessages : Backbone.Firebase.Collection.extend({
         initialize: function(uid) {

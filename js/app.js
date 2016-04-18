@@ -8,7 +8,6 @@ import Firebase from 'firebase'
 import ref from './fbRef'
 import {SplashPage,DashPage,BandPage} from './views'
 import {Models,Collections} from './models'
-// window.BB = Backbone
 
 function app() {
     // start app
@@ -42,14 +41,14 @@ function app() {
             DOM.render(<DashPage view="createBand" />, document.querySelector('.container'))
         },
 
-        showBandPage: function() {
-            var myMod = new Models.UserModel(ref.getAuth().uid)
-            myMod.once('sync',function() {
-                var BandId = myMod.get('Band_id')
-                var usersInBand = new Collections.UsersByBandId(BandId)
-                DOM.render(<BandPage BandId={BandId} membersColl={usersInBand}/>, document.querySelector('.container'))                
-            })
-        },
+        // showBandPage: function() {
+        //     var myMod = new Models.UserModel(ref.getAuth().uid)
+        //     myMod.once('sync',function() {
+        //         var BandId = myMod.get('band_id')
+        //         var usersInBand = new Collections.UsersByBandId(BandId)
+        //         DOM.render(<BandPage BandId={BandId} postColl={postColl} membersColl={usersInBand}/>, document.querySelector('.container'))                
+        //     })
+        // },
 
         doLogOut: function() {
             ref.unauth()
@@ -70,8 +69,22 @@ function app() {
         },
 
         showBandPage: function() {
-            var msgColl = new UserMessages(uid)
-            DOM.render(<BandPage /> ,document.querySelector('.container'))
+            // var msgColl = new UserMessages(uid)var myMod = new Models.UserModel(ref.getAuth().uid)
+            function reactRenderBandComponent(uMod){
+                var bandId = uMod.get('band_id')
+                var usersInBand = new Collections.UsersByBandId(bandId)
+                var postsInBand = new Collections.PostByBandId(bandId)
+                DOM.render(<BandPage bandId={bandId} postColl={postsInBand} memberColl={usersInBand}/>, document.querySelector('.container') )               
+            }
+
+            var userMod = new Models.UserModel(ref.getAuth().uid)
+
+            if (typeof userMod.id !== 'undefined') reactRenderBandComponent(userMod)
+            else {
+                userMod.once('sync',function(){
+                    reactRenderBandComponent(userMod)  
+                })
+            }
         },
 
         _logUserIn: function(email,password){
@@ -97,7 +110,7 @@ function app() {
             },function(error,authData) {
                 if (error) console.log(error)
                 else {
-                    var userMod = new UserModel(authData.uid)
+                    var userMod = new Models.UserModel(authData.uid)
                     userMod.set({ 
                         email:email,
                         id: authData.uid

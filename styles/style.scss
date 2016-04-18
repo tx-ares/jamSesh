@@ -174,11 +174,12 @@ a {
             border-radius: 5%;
             text-decoration: none;
             padding: 1em 2em;
-            margin: 2.5em;
+            margin-left: 3.5em;
         }
     }
     .members {
-        border: 3px solid #555;
+        border: 3px solid violet;
+        background-color: rgba(100,10,190,.5);
         width: 20%;
         text-align: left;
         display: inline-block;
@@ -257,6 +258,15 @@ a {
 
                 }
         }
+    }
+
+    .scheduleContainer {
+        display:block;
+        width:80%;
+        height:80vh;
+        background-color: rgba(240,40,140,.5);
+        border: 3px solid rgba(240,40,140,1);
+
     }
 
     .messenger {
