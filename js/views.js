@@ -223,14 +223,14 @@ var Posts = React.createClass({
         if (keyEvent.keyCode === 13) {
             var postData = keyEvent.target.value
             keyEvent.target.value = ''
-            postData = new Date(postData)
-           console.log(postData)
-           var months = ["January","Feburary","March","April","May","June","July","August","September","October","November","December"];
-           var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-           console.log(months[postData.getMonth(postData)])
-           console.log(days[postData.getDay(postData)])
-           console.log(postData.getHours(postData))
-           console.log(postData.getMinutes(postData))
+           //  postData = new Date(postData)
+           // console.log(postData)
+           // var months = ["January","Feburary","March","April","May","June","July","August","September","October","November","December"];
+           // var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+           // console.log(months[postData.getMonth(postData)])
+           // console.log(days[postData.getDay(postData)])
+           // console.log(postData.getHours(postData))
+           // console.log(postData.getMinutes(postData))
 
 
 
