@@ -145,15 +145,22 @@ var BandPage = React.createClass({
         this.props.postColl.on('sync update', function(){
             self.forceUpdate()
         })
+        // this.props.bandsColl.on('sync update', function(){
+        //     self.forceUpdate()
+        // })
         
     },
 
     render: function() {
+        console.log(this.props.bandId)
+        // console.log({Collections.BandCollection.child})
         return (
-            <div className="dashContainer" >
+            <div className="dashContainer">
                 <NavBar />
                 <h1>My Band</h1>
-                <div className="scheduleContainer">This will contain a weekly schedule containing practice times and gigs. </div>
+                <div className="scheduleContainer">This will contain a weekly schedule containing practice times and gigs. 
+                <Messenger />
+                <Inbox /></div>
                 <MemberList bandId={this.props.bandId} memberColl={this.props.memberColl} />
                 {/*<Posts bandId={this.props.bandId} postColl={this.props.postColl} />*/}
             </div>

@@ -69,7 +69,8 @@ function app() {
         },
 
         showBandPage: function() {
-            // var msgColl = new UserMessages(uid)var myMod = new Models.UserModel(ref.getAuth().uid)
+            var msgColl = new UserMessages(uid)
+            // var myMod = new Models.UserModel(ref.getAuth().uid)
             function reactRenderBandComponent(uMod){
                 var bandId = uMod.get('band_id')
                 var usersInBand = new Collections.UsersByBandId(bandId)
