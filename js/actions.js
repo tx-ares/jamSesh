@@ -17,7 +17,7 @@ var Actions = {
 	},
 
 	addPost: function(postObj) {
-		var postColl = new Collections.postCollection()
+		var postColl = new Collections.PostCollection()
 		postColl.create(postObj)
 	}
 }

@@ -95,19 +95,6 @@ var Profile = React.createClass({
     }
 })
 
-var Members = React.createClass({
-
-    render: function() {
-        return(
-            <div className="bandMembers">
-
-            </div>
-
-            )
-
-    }
-})
-
 var MyBands = React.createClass({
 
     _handleBands: function(){
@@ -159,10 +146,10 @@ var BandPage = React.createClass({
                 <NavBar />
                 <h1>My Band</h1>
                 <div className="scheduleContainer">This will contain a weekly schedule containing practice times and gigs. 
-                <Posts bandId={this.props.bandId} postColl={this.props.postColl} />
+                
                 </div>
                 <MemberList bandId={this.props.bandId} memberColl={this.props.memberColl} />
-                
+                <Posts bandId={this.props.bandId} postColl={this.props.postColl} />
             </div>
             )
     }
@@ -240,7 +227,7 @@ var Posts = React.createClass({
                 band_id: this.props.bandId
             }
             Actions.addPost(postObj)
-
+            
         }
     },
 
@@ -251,28 +238,23 @@ var Posts = React.createClass({
                 <p key={i}> {post.get("text")} </p>
                 )
         })
-        return postsArr
+        return postArr
     },
 
     render: function() {
         console.log("accessing the Posts component!!")
         return (
 
-            <div> I GOT IT!!! X2 </div>
+            <div className="posts"><h4>Make a Post</h4>
+            <textarea placeholder="create a new post" onKeyDown={this._newPost} />
+                <div>
+                    {this._handlePosts()}
+                </div>
+            </div>
             
             )
     }
 })
-
-{/*<div className="posts">
-                <input 
-                    placeholder="create a new post" 
-                    onKeyDown={this._newPost} 
-                ></input>
-                <div>
-                    {this._handlePosts()}
-                </div>
-            </div>*/}
 
 var Inbox = React.createClass({
 
