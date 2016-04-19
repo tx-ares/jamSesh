@@ -42,7 +42,7 @@ var Collections = {
 
      PostByBandId: Backbone.Firebase.Collection.extend({
         initialize: function(targetBandId) {
-            this.url= ref.child('users').orderByChild('band_id').equalTo(targetBandId)
+            this.url= ref.child('posts').orderByChild('band_id').equalTo(targetBandId)
         }
      }), 
 

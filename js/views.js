@@ -12,7 +12,7 @@ var CreateBand = React.createClass ({
             genre: this.genre
         })
         console.log("Band saved to database!")
-        console.log(this.name + "'s new band Id is " + this.me)
+        // console.log(this.name + "'s new band Id is " + this.me)
     },
 
     _updateName: function(evt) {
@@ -99,7 +99,7 @@ var MyBands = React.createClass({
 
     _handleBands: function(){
         var BandsArr = this.props.bandsColl.map(function(bands, i){
-            console.log(band)
+            // console.log(band)
             return(
                 <p key={i}> {bands.get("name")} </p>
                 )
@@ -135,21 +135,22 @@ var BandPage = React.createClass({
         // this.props.bandsColl.on('sync update', function(){
         //     self.forceUpdate()
         // })
+        console.log('checking band page')
         
     },
 
     render: function() {
-        console.log(this.props.bandId)
+        // console.log(this.props.bandId)
         // console.log({Collections.BandCollection.child})
         return (
             <div className="dashContainer">
                 <NavBar />
                 <h1>My Band</h1>
-                <div className="scheduleContainer">This will contain a weekly schedule containing practice times and gigs. 
-                
+                <div className="scheduleContainer"> 
+                <Posts bandId={this.props.bandId} postColl={this.props.postColl} />
                 </div>
                 <MemberList bandId={this.props.bandId} memberColl={this.props.memberColl} />
-                <Posts bandId={this.props.bandId} postColl={this.props.postColl} />
+                
             </div>
             )
     }
@@ -220,33 +221,46 @@ var Posts = React.createClass({
 
     _newPost: function(keyEvent) {
         if (keyEvent.keyCode === 13) {
-            var postText = keyEvent.target.value
+            var postData = keyEvent.target.value
             keyEvent.target.value = ''
+            postData = new Date(postData)
+           console.log(postData)
+           var months = ["January","Feburary","March","April","May","June","July","August","September","October","November","December"];
+           var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+           console.log(months[postData.getMonth(postData)])
+           console.log(days[postData.getDay(postData)])
+           console.log(postData.getHours(postData))
+           console.log(postData.getMinutes(postData))
+
+
+
             var postObj = {
-                text: postText,
+                postData: postData,
                 band_id: this.props.bandId
             }
             Actions.addPost(postObj)
-            
         }
     },
 
     _handlePosts: function(){
         var postArr = this.props.postColl.map(function(post, i){
-            console.log(post)
+            // console.log(post)
             return(
-                <p key={i}> {post.get("text")} </p>
+                <p key={i}> {post.get("postData")} </p>
                 )
         })
         return postArr
     },
 
     render: function() {
-        console.log("accessing the Posts component!!")
+        // console.log("accessing the Posts component!!")
+        console.log(this.props)
         return (
 
-            <div className="posts"><h4>Make a Post</h4>
-            <textarea placeholder="create a new post" onKeyDown={this._newPost} />
+            <div className="posts"><h4>Make a Rehearsal Post</h4>
+            <input type="datetime-local" onKeyDown={this._newPost} />
+            Press Enter to Post your rehearsal!
+        {/*<button onClick={this._newPost}>Post</button>*/}
                 <div>
                     {this._handlePosts()}
                 </div>

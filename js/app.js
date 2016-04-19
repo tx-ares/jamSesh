@@ -86,6 +86,10 @@ function app() {
                     reactRenderBandComponent(userMod)  
                 })
             }
+
+            // userMod.once('sync',function() {
+            //     reactRenderBandComponent(userMod)
+            // })
         },
 
         _logUserIn: function(email,password){
