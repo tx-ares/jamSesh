@@ -187,7 +187,7 @@ var MemberList = React.createClass({
     render: function() {
         return (
             <div className="members">
-                <h4>The Band</h4>
+                <h4>My members</h4>
                 {this.props.memberColl.map(this._genMember)}
                 <input placeholder="add a member by email" onKeyDown={this._addMember} />
             </div>
