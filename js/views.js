@@ -145,7 +145,7 @@ var BandPage = React.createClass({
         return (
             <div className="dashContainer">
                 <NavBar />
-                <h1>My Band</h1>
+                <h1>The Glitch Mob</h1>
                 <div className="scheduleContainer"> 
                 <Posts bandId={this.props.bandId} postColl={this.props.postColl} />
                 </div>
