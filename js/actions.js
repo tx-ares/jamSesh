@@ -12,8 +12,6 @@ var Actions = {
 	},
 
 	addMember: function(bandId,userModel) {
-		// we need a peep email to locate the user
-		// and a band_id to assign them the new id
 		userModel.set({band_id:bandId})
 		userModel.save()
 	},

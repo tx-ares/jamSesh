@@ -69,7 +69,7 @@ function app() {
         },
 
         showBandPage: function() {
-            var msgColl = new UserMessages(uid)
+            // var postColl = new PostCollection(bandId)
             // var myMod = new Models.UserModel(ref.getAuth().uid)
             function reactRenderBandComponent(uMod){
                 var bandId = uMod.get('band_id')
