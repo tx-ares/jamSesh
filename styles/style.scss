@@ -141,12 +141,15 @@ a {
     }
 
  .dashContainer {
+    background-color: rgba(11, 34, 63, .7);
+
     // display: flex;
     // align-items: flex-start;
     // text-align: left;
     color: #ddd;
 
     .navBar {
+        background-color: rgba(11, 34, 63, .5);
 
         a {
             background: #555;
@@ -159,16 +162,21 @@ a {
     }
 
     .posts {
-        background-color: rgba(40,240,140,.5);
-        border: 3px solid rgba(40,240,140,1);
+        background-color: rgba(120,120,120,.5);
+        border: 3px solid rgba(120,120,120,1);
         // width: 30%;
         text-align: left;
         vertical-align: top;
+
+            p {
+                color: red;
+                margin: auto;
+            }
     }
 
     .members {
-        border: 3px solid violet;
-        background-color: rgba(100,10,190,.5);
+        border: 3px solid rgba(120,120,120,1);
+        background-color: rgba(120,120,120,.5);
         text-align: left;
         vertical-align: top;
 
@@ -248,8 +256,8 @@ a {
     }
 
     .scheduleContainer {
-        background-color: rgba(240,40,140,.5);
-        border: 3px solid rgba(240,40,140,1);
+        background-color: rgba(120,120,120,.5);
+        border: 3px solid rgba(120,120,120,1);
 
     }
 
@@ -273,7 +281,7 @@ a {
         display: inline-block;
         padding: 1em;
         // width: 80%;
-        margin: 3em auto;
+        margin: auto;
     }
 
     h1 {

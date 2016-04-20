@@ -165,6 +165,7 @@ var BandPage = React.createClass({
                 <h1>The Glitch Mob</h1>
                 <div className="row scheduleContainer"> 
                     <Posts bandId={this.props.bandId} postColl={this.props.postColl} />
+
                     <MemberList bandId={this.props.bandId} memberColl={this.props.memberColl} />
                 </div>
                     
@@ -292,9 +293,10 @@ var Posts = React.createClass({
                     <button type="submit" className="btn btn-primary">Create Event</button>
                 </form>
 
-                Press Enter to Post your rehearsal!
+                
             {/*<button onClick={this._newPost}>Post</button>*/}
-                <div>
+                <div className="col-xs-12 col-sm-8 posts">
+                    <h5>Posts</h5>
                     {this._handlePosts()}
                 </div>
             </div>
