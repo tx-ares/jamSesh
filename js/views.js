@@ -57,8 +57,8 @@ var DashPage = React.createClass({
 
                 <div className="row">
                     <Profile />
-                    <Profile />
-                    <Profile />
+                    <Profile2 />
+                    <Profile3 />
                 </div>
 
                  {content}
@@ -98,10 +98,50 @@ var Profile = React.createClass({
         
             <div className="col-xs-12 col-sm-4">
                 <div className="thumbnail">
-                    <img className="profilePic" src="http://i.imgur.com/kQgQcDw.jpg?1"></img>
+                    <img className="profilePic" src="http://i.imgur.com/SjuSREA.png"></img>
                     <div className="caption">
                         <h3>Jimmy Sax</h3>
                         <h5>Instruments: Guitar, Saxophone</h5>
+                        <h6><small>Genre: Jazz</small></h6>
+                    </div>
+                </div>
+            </div>
+
+            )
+    }
+})
+
+var Profile2 = React.createClass({
+
+    render: function(){
+        return (
+        
+            <div className="col-xs-12 col-sm-4">
+                <div className="thumbnail">
+                    <img className="profilePic" src="http://i.imgur.com/UK3TBhB.png"></img>
+                    <div className="caption">
+                        <h3>Ringo Sax</h3>
+                        <h5>Instruments: Vox, Saxophone</h5>
+                        <h6><small>Genre: Jazz</small></h6>
+                    </div>
+                </div>
+            </div>
+
+            )
+    }
+})
+
+var Profile3 = React.createClass({
+
+    render: function(){
+        return (
+        
+            <div className="col-xs-12 col-sm-4">
+                <div className="thumbnail">
+                    <img className="profilePic" src="http://i.imgur.com/QZDAGdn.png"></img>
+                    <div className="caption">
+                        <h3>Bobby Sax</h3>
+                        <h5>Instruments: Drums, Saxophone</h5>
                         <h6><small>Genre: Jazz</small></h6>
                     </div>
                 </div>
