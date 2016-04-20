@@ -52,9 +52,15 @@ var DashPage = React.createClass({
         // }
 
         return (
-            <div className="dashContainer">
+            <div className="container dashContainer">
                 <NavBar />
-                <Profile />
+
+                <div className="row">
+                    <Profile />
+                    <Profile />
+                    <Profile />
+                </div>
+
                  {content}
                  
             </div>
@@ -65,11 +71,21 @@ var DashPage = React.createClass({
 var NavBar = React.createClass({
     render: function() {
         return (
-            <div className="navBar">
-                <a href="#createBand">Create a band</a>
-                <a href="#dash">Dashboard</a>
-                <a href="#band">My Band</a>
-                <a href="#logout">Log out</a>
+            <div className="row my-nav-styles">
+                <div className='col-xs-6 col-sm-3 my-menu-op'>
+                    <a href="#createBand">Create a band</a>
+                </div>
+                <div className='col-xs-6 col-sm-3 my-menu-op'>
+                    <a href="#dash">Dashboard</a>
+                </div>
+
+                <div className='col-xs-6 col-sm-3 my-menu-op'>
+                    <a href="#band">My Band</a>
+                </div>
+                <div className='col-xs-6 col-sm-3 my-menu-op'>
+                    <a href="#logout">Log out</a>
+                </div>
+
             </div>
             )
     }
@@ -80,15 +96,15 @@ var Profile = React.createClass({
     render: function(){
         return (
         
-            <div className="profile">
-                    <div className="imgContainer">
-                        <img className="profilePic" src="http://i.imgur.com/kQgQcDw.jpg?1"></img>
+            <div className="col-xs-12 col-sm-4">
+                <div className="thumbnail">
+                    <img className="profilePic" src="http://i.imgur.com/kQgQcDw.jpg?1"></img>
+                    <div className="caption">
+                        <h3>Jimmy Sax</h3>
+                        <h5>Instruments: Guitar, Saxophone</h5>
+                        <h6><small>Genre: Jazz</small></h6>
                     </div>
-                    <ul>
-                        <li>Jimmy Sax</li>
-                        <li>Instruments: Guitar, Saxophone</li>
-                        <li>Genre: Jazz</li>
-                    </ul>
+                </div>
             </div>
 
             )
@@ -143,13 +159,15 @@ var BandPage = React.createClass({
         // console.log(this.props.bandId)
         // console.log({Collections.BandCollection.child})
         return (
-            <div className="dashContainer">
+            <div className="container dashContainer">
+
                 <NavBar />
                 <h1>The Glitch Mob</h1>
-                <div className="scheduleContainer"> 
-                <Posts bandId={this.props.bandId} postColl={this.props.postColl} />
+                <div className="row scheduleContainer"> 
+                    <Posts bandId={this.props.bandId} postColl={this.props.postColl} />
+                    <MemberList bandId={this.props.bandId} memberColl={this.props.memberColl} />
                 </div>
-                <MemberList bandId={this.props.bandId} memberColl={this.props.memberColl} />
+                    
                 
             </div>
             )
@@ -186,7 +204,7 @@ var MemberList = React.createClass({
 
     render: function() {
         return (
-            <div className="members">
+            <div className="col-xs-12 col-sm-4 members">
                 <h4>My members</h4>
                 {this.props.memberColl.map(this._genMember)}
                 <input placeholder="add a member by email" onKeyDown={this._addMember} />
@@ -251,16 +269,31 @@ var Posts = React.createClass({
         })
         return postArr
     },
+    _handleSubmit: function(evt){
+        evt.preventDefault()
+    },
 
     render: function() {
         // console.log("accessing the Posts component!!")
         console.log(this.props)
         return (
 
-            <div className="posts"><h4>Make a Rehearsal Post</h4>
-            <input type="datetime-local" onKeyDown={this._newPost} />
-            Press Enter to Post your rehearsal!
-        {/*<button onClick={this._newPost}>Post</button>*/}
+            <div className="col-xs-12 col-sm-8 posts"><h4>Make a Rehearsal Post</h4>
+
+                <form onSubmit={this._handleSubmit} className=''>
+                    <div className="form-group">
+                        <label>Venue</label>
+                        <input className="form-control" type="text" onKeyDown={this._newPost} />
+                    </div>
+                    <div className="form-group">
+                        <label>Date</label>
+                        <input className="form-control" type="datetime-local" onKeyDown={this._newPost} />
+                    </div>
+                    <button type="submit" className="btn btn-primary">Create Event</button>
+                </form>
+
+                Press Enter to Post your rehearsal!
+            {/*<button onClick={this._newPost}>Post</button>*/}
                 <div>
                     {this._handlePosts()}
                 </div>

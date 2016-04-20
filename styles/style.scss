@@ -1,22 +1,4 @@
-@import "../bower_components/normalize-scss/_normalize.scss";
-@import "../bower_components/typeplate-starter-kit/scss/_typeplate.scss";
-
-p+p {
-    text-indent: 0;
-    margin-top: 0;
-}
-
-p {
-    max-width: 80ch;
-    margin-left: 0;
-    margin-right: auto;
-}
-
-ul, ol {
-    max-width: 80ch;
-    margin-left: 0;
-    margin-right: auto;
-}
+@import '../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 
 /**
  * BOX-SIZING
@@ -89,12 +71,12 @@ ul, ol {
  * GENERAL
  */
 
-img {
-    max-width: 100%;
-}
-body {
-    font-family: 'San Francisco', 'Helvetica', 'Trebuchet MS', Arial, sans-serif;
-}
+// img {
+//     max-width: 100%;
+// }
+// body {
+//     font-family: 'San Francisco', 'Helvetica', 'Trebuchet MS', Arial, sans-serif;
+// }
 
 /**
  * PACE (automatic pre-loader thingy)
@@ -181,16 +163,13 @@ a {
         border: 3px solid rgba(40,240,140,1);
         // width: 30%;
         text-align: left;
-        display: block;
         vertical-align: top;
     }
 
     .members {
         border: 3px solid violet;
         background-color: rgba(100,10,190,.5);
-        width: 30%;
         text-align: left;
-        display: inline-block;
         vertical-align: top;
 
         input {
@@ -269,9 +248,6 @@ a {
     }
 
     .scheduleContainer {
-        display:inline-block;
-        width:70%;
-        height:80vh;
         background-color: rgba(240,40,140,.5);
         border: 3px solid rgba(240,40,140,1);
 
@@ -298,6 +274,11 @@ a {
         padding: 1em;
         // width: 80%;
         margin: 3em auto;
+    }
+
+    h1 {
+        margin-top:.8em;
+        margin-bottom:.5em;
     }
 
     textarea {
