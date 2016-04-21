@@ -159,14 +159,26 @@ a {
             padding: 1em 2em;
             margin-left: 3.5em;
         }
+    }   
+
+    .profileContainer {
+        margin-top:20px;
     }
 
     .posts {
         background-color: rgba(120,120,120,.5);
-        border: 3px solid rgba(120,120,120,1);
+        // border: 3px solid rgba(120,120,120,1);
         // width: 30%;
         text-align: left;
         vertical-align: top;
+
+            .postBox {
+                display:inline-block;
+                height:100px;
+                width:100px;
+                // border: 3px solid rgba(120,120,120,.5);
+                background-color: rgba(120,120,120,.5);       
+            }   
 
             p {
                 color: red;
@@ -175,8 +187,8 @@ a {
     }
 
     .members {
-        border: 3px solid rgba(120,120,120,1);
-        background-color: rgba(120,120,120,.5);
+        // border: 3px solid rgba(120,120,120,1);
+        // background-color: rgba(120,120,120,.5);
         text-align: left;
         vertical-align: top;
 
@@ -214,8 +226,14 @@ a {
 
         .profilePic{
             border-radius: 10px;
+            width:30%;
+            
         }
 
+    }
+
+    .createBandbtn {
+        display:block;
     }
 
     .createBandBar {
@@ -257,7 +275,7 @@ a {
 
     .scheduleContainer {
         background-color: rgba(120,120,120,.5);
-        border: 3px solid rgba(120,120,120,1);
+        // border: 3px solid rgba(120,120,120,1);
 
     }
 

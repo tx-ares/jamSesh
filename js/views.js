@@ -55,10 +55,11 @@ var DashPage = React.createClass({
             <div className="container dashContainer">
                 <NavBar />
 
-                <div className="row">
+                <div className="row profileContainer">
                     <Profile />
                     <Profile2 />
                     <Profile3 />
+                    <a href="#createBand" className="btn btn-primary btn-lg active" role="button">Create a band</a>
                 </div>
 
                  {content}
@@ -72,18 +73,16 @@ var NavBar = React.createClass({
     render: function() {
         return (
             <div className="row my-nav-styles">
+               
                 <div className='col-xs-6 col-sm-3 my-menu-op'>
-                    <a href="#createBand">Create a band</a>
-                </div>
-                <div className='col-xs-6 col-sm-3 my-menu-op'>
-                    <a href="#dash">Dashboard</a>
+                    <a href="#dash" className="btn btn-primary btn-lg active" role="button">Dashboard</a>
                 </div>
 
                 <div className='col-xs-6 col-sm-3 my-menu-op'>
-                    <a href="#band">My Band</a>
+                    <a href="#band" className="btn btn-primary btn-lg active" role="button">Schedule</a>
                 </div>
                 <div className='col-xs-6 col-sm-3 my-menu-op'>
-                    <a href="#logout">Log out</a>
+                    <a href="#logout" className="btn btn-primary btn-lg active" role="button">Log out</a>
                 </div>
 
             </div>
@@ -278,40 +277,86 @@ var Member = React.createClass({
 
 var Posts = React.createClass({
 
-    _newPost: function(keyEvent) {
-        if (keyEvent.keyCode === 13) {
-            var postData = keyEvent.target.value
-            keyEvent.target.value = ''
-           //  postData = new Date(postData)
-           // console.log(postData)
-           // var months = ["January","Feburary","March","April","May","June","July","August","September","October","November","December"];
-           // var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-           // console.log(months[postData.getMonth(postData)])
-           // console.log(days[postData.getDay(postData)])
-           // console.log(postData.getHours(postData))
-           // console.log(postData.getMinutes(postData))
-
-
-
-            var postObj = {
-                postData: postData,
-                band_id: this.props.bandId
-            }
-            Actions.addPost(postObj)
-        }
+    _formatTime: function(timeString) {
+            // var postData = keyEvent.target.value
+            // keyEvent.target.value = ''
+           var timeData = new Date(timeString)
+           // console.log(timeData)
+           var months = ["January","Feburary","March","April","May","June","July","August","September","October","November","December"];
+           var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+           
+            // log(months[timeData.getMonth(timeData)])
+    
+           var fgm = (months[timeData.getMonth(timeData)])
+           var fgd = (days[timeData.getDay(timeData)])
+           var fgda = timeData.getDate(timeData) 
+           var fgh = (( timeData.getUTCHours(timeData) + 11) % 12 + 1)
+           var fgmi = timeData.getUTCMinutes(timeData)
+           var ampm = timeData.getUTCHours() < 12 ? "AM" : "PM";
+           
+           var zero = function(){ 
+               if(timeData.getUTCMinutes() ===0){
+                  return "0"
+                  }
+                 else {
+                    return ''
+                    }
+                }
+           
+           // var pdh = (timeData.getHours(timeData))
+           // var pdm = (timeData.getMinutes(timeData))
+            
+           console.log(fgm)
+           console.log(fgd)
+           console.log(fgda)
+           console.log(fgh)
+           console.log(fgmi)
+          
+           var formattedPost = ''
+           formattedPost = fgd + ' ' + fgm + ' ' + fgda +' at '+ fgh + ":" + fgmi + zero() + ampm
+           
+           console.log(formattedPost)
+        // input: a string of the form "2016-04-30T21:00"
+        // output: a string of the form "March 23 at 5:50 p.m."
+        return formattedPost
     },
 
     _handlePosts: function(){
+        var self = this
         var postArr = this.props.postColl.map(function(post, i){
-            // console.log(post)
+            // if the post doesn't have an id property, it is a ghost, and the .postBox should have display: none.  
+                var styleObj = {}
+                if (!post.get('id')) {
+                    styleObj.display = 'none';
+                }
             return(
-                <p key={i}> {post.get("postData")} </p>
+                <div className="postBoxContainer">
+                    <div style={styleObj} className="postBox">
+                        <div key={i}> {self._formatTime(post.get("time"))}  at {post.get("place")}</div>
+                    </div> 
+                </div>
+                               
                 )
         })
+        console.log(postArr)
         return postArr
     },
+
     _handleSubmit: function(evt){
-        evt.preventDefault()
+       var postObj = {
+            time: this.time,
+            place: this.place,
+            band_id: this.props.bandId
+        }
+        Actions.addPost(postObj)
+    },
+
+    _updatePlace: function(evt) {
+        this.place = evt.target.value
+    },
+
+    _updateTime: function(evt) {
+        this.time = evt.target.value
     },
 
     render: function() {
@@ -319,21 +364,21 @@ var Posts = React.createClass({
         console.log(this.props)
         return (
 
-            <div className="col-xs-12 col-sm-8 posts"><h4>Make a Rehearsal Post</h4>
+            <div className="col-xs-12 col-sm-8 posts">
+                <h4>Make a Rehearsal Post</h4>
 
                 <form onSubmit={this._handleSubmit} className=''>
                     <div className="form-group">
                         <label>Venue</label>
-                        <input className="form-control" type="text" onKeyDown={this._newPost} />
+                        <input className="form-control" type="text" onChange={this._updatePlace} />
                     </div>
                     <div className="form-group">
                         <label>Date</label>
-                        <input className="form-control" type="datetime-local" onKeyDown={this._newPost} />
+                        <input className="form-control" type="datetime-local" onChange={this._updateTime} />
                     </div>
-                    <button type="submit" className="btn btn-primary">Create Event</button>
+                    <button onClick={this._newSubmit} type="submit" className="btn btn-primary">Create Event</button>
                 </form>
-
-                
+         
             {/*<button onClick={this._newPost}>Post</button>*/}
                 <div className="col-xs-12 col-sm-8 posts">
                     <h5>Posts</h5>
@@ -345,74 +390,9 @@ var Posts = React.createClass({
     }
 })
 
-var Inbox = React.createClass({
-
-    _makeMessage: function(mod,i) {
-        return <Message msgData={mod} key={i} />
-    },
-
-    render: function() {
-        return (
-            <div className="inbox">
-                {this.props.msgColl.map(this._makeMessage)}
-            </div>
-            )
-    }
-})
-
-var Message = React.createClass({
-
-    render: function() {
-        var displayType = "block"
-        if (this.props.msgData.id === undefined) displayType = "none"
-        return (
-            <div style={{display:displayType}} className="message" >
-                <p className="author">from {this.props.msgData.get('sender_email')}</p>
-                <p className="content">{this.props.msgData.get('content')}</p>
-            </div>
-            )
-    }
-})
-
-var Messenger = React.createClass({
-
-    targetEmail: '',
-    msg: '',
-
-    _setTargetEmail: function(e) {
-        this.targetEmail = e.target.value
-    },
-
-    _setMsg: function(e) {
-        this.msg = e.target.value
-    },
-
-    _submitMessage: function() {
-        var queriedUsers = new QueryByEmail(this.targetEmail)
-        var self = this
-        queriedUsers.fetch()
-        queriedUsers.on('sync', function() {
-            var usrId = queriedUsers.models[0].get('id')
-            var usrMsgCollection = new UserMessages(usrId)
-            usrMsgCollection.create({
-                content: self.msg,
-                sender_email: ref.getAuth().password.email,
-                sender_id: ref.getAuth().uid
-            })
-        })
-    },
-
-    render: function() {
-        return (
-                <div className="messenger">
-                    <input placeholder="recipient email" onChange={this._setTargetEmail} />
-                    <textarea placeholder="your message here" onChange={this._setMsg} />
-                    <button onClick={this._submitMessage} >submit!</button> 
-                </div> 
-            )
-    }
-
-})
+//Messenger Planned ////
+//                    //
+////////////////////////
 
 // End Band Page Components //////////////////////////
 
