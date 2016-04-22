@@ -172,19 +172,24 @@ a {
         text-align: left;
         vertical-align: top;
 
-            .postBox {
+            .postBoxContainer {
                 display:inline-block;
-                height:100px;
-                width:100px;
-                // border: 3px solid rgba(120,120,120,.5);
-                background-color: rgba(120,120,120,.5);       
-            }   
-
+                vertical-align: top;
+            }
+                .postBox {
+                    display:inline-block;
+                    height:120px;
+                    width:120px;
+                    margin:30px;
+                    // border: 3px solid rgba(120,120,120,.5);
+                    background-color: rgba(120,120,120,.5);       
+                }   
+        }
             p {
-                color: red;
+                // color: red;
                 margin: auto;
             }
-    }
+    
 
     .members {
         // border: 3px solid rgba(120,120,120,1);
@@ -204,8 +209,10 @@ a {
                 display: inline-block;
             }
             p {
+                font-size: medium;
                 display: inline-block;
             }
+
         }
     }
 

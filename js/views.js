@@ -55,7 +55,7 @@ var DashPage = React.createClass({
             <div className="container dashContainer">
                 <NavBar />
 
-                <div className="row profileContainer">
+                <div className="row profileContainer"><h3>My Members</h3>
                     <Profile />
                     <Profile2 />
                     <Profile3 />
@@ -97,7 +97,7 @@ var Profile = React.createClass({
         
             <div className="col-xs-12 col-sm-4">
                 <div className="thumbnail">
-                    <img className="profilePic" src="http://i.imgur.com/SjuSREA.png"></img>
+                    <img className="profilePic" src="http://i.imgur.com/4UQ1mKSm.jpg"></img>
                     <div className="caption">
                         <h3>Jimmy Sax</h3>
                         <h5>Instruments: Guitar, Saxophone</h5>
@@ -117,7 +117,7 @@ var Profile2 = React.createClass({
         
             <div className="col-xs-12 col-sm-4">
                 <div className="thumbnail">
-                    <img className="profilePic" src="http://i.imgur.com/UK3TBhB.png"></img>
+                    <img className="profilePic" src="http://i.imgur.com/0VGlKhRm.jpg"></img>
                     <div className="caption">
                         <h3>Ringo Sax</h3>
                         <h5>Instruments: Vox, Saxophone</h5>
@@ -137,7 +137,7 @@ var Profile3 = React.createClass({
         
             <div className="col-xs-12 col-sm-4">
                 <div className="thumbnail">
-                    <img className="profilePic" src="http://i.imgur.com/QZDAGdn.png"></img>
+                    <img className="profilePic" src="http://i.imgur.com/Y3WNolbm.jpg"></img>
                     <div className="caption">
                         <h3>Bobby Sax</h3>
                         <h5>Instruments: Drums, Saxophone</h5>
@@ -269,7 +269,7 @@ var Member = React.createClass({
 
         return (
             <div style={styleObj} className="member">
-                <p>{this.props.model.get('email')}</p><button onClick={this._boot}>X</button>
+                <p>{this.props.model.get('email')}</p><button className="btn btn-danger" onClick={this._boot}>X</button>
             </div>
                 )
     }
@@ -329,10 +329,15 @@ var Posts = React.createClass({
                 if (!post.get('id')) {
                     styleObj.display = 'none';
                 }
+
+                // if (post.get('type') = "Gig") {
+                //     styleObj.box-shadow = 'box-shadow: 10px 10px 130px 86px rgba(235,212,65,0.82);'
+                // }
+
             return(
                 <div className="postBoxContainer">
                     <div style={styleObj} className="postBox">
-                        <div key={i}> {self._formatTime(post.get("time"))}  at {post.get("place")}</div>
+                        <div key={i}> <h4>{post.get("type")}</h4>{self._formatTime(post.get("time"))}  @ {post.get("place")}</div>
                     </div> 
                 </div>
                                
@@ -346,9 +351,14 @@ var Posts = React.createClass({
        var postObj = {
             time: this.time,
             place: this.place,
+            type: this.type,
             band_id: this.props.bandId
         }
         Actions.addPost(postObj)
+    },
+
+    _updateEventType: function(evt) {
+        this.type = evt.target.value
     },
 
     _updatePlace: function(evt) {
@@ -369,6 +379,16 @@ var Posts = React.createClass({
 
                 <form onSubmit={this._handleSubmit} className=''>
                     <div className="form-group">
+                        <label>Event Type</label>
+                        <select className="form-control" onChange={this._updateEventType} >
+                            <option>Choose a type</option>
+                            <option>Rehearsal</option>
+                            <option>Meeting</option>
+                            <option>Gig</option></select>
+                    
+                    </div>
+
+                    <div className="form-group">
                         <label>Venue</label>
                         <input className="form-control" type="text" onChange={this._updatePlace} />
                     </div>
@@ -380,7 +400,7 @@ var Posts = React.createClass({
                 </form>
          
             {/*<button onClick={this._newPost}>Post</button>*/}
-                <div className="col-xs-12 col-sm-8 posts">
+                <div className="col-xs-12 col-sm-12 posts">
                     <h5>Posts</h5>
                     {this._handlePosts()}
                 </div>
