@@ -418,6 +418,7 @@ var Posts = React.createClass({
 
 // Splash Page Components ////////////////////////////
 
+
 var SplashPage = React.createClass({
     email: '',
     password: '',
@@ -449,12 +450,20 @@ var SplashPage = React.createClass({
                 <img className="banner" src="http://i.imgur.com/xZIPVAG.png?1"></img>
 
                 <div className="loginContainer">
-                    <input onChange={this._updateEmail} />
-                    <input onChange={this._updatePassword} type="password" />
-                    <div className="splashButtons" >
+                    <form onSubmit={this._handleLogin} className=''>
+                        <div className="form-group">
+                            <h5>Email</h5>
+                            <input placeholder="email" onChange={this._updateEmail} />
+                        </div>
+
+                        <div className="form-group">
+                            <h5>Password</h5>
+                            <input type="password" onChange={this._updatePassword} />
+                        </div>
+                    
                         <button onClick={this._handleSignUp} >Sign up</button>
                         <button onClick={this._handleLogIn} >Log in</button>
-                    </div>
+                    </form>
                 </div>
             </div>
             )

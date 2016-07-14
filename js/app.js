@@ -18,14 +18,15 @@ function app() {
             'splash': "showSplashPage",
             'dash': "showDashPage",
             'band': "showBandPage",
-            'logout': "doLogOut"
+            'logout': "doLogOut",
+            '*default': "showSplashPage"
         },
 
         initialize: function() {
             // location.hash = "splash"
             // this.ref = new Firebase('https://jamcamp.firebaseio.com/')
             // window.ref = ref
-
+            console.log("initialize fired")
             if (!ref.getAuth()) {
                 location.hash = "splash"
             }
@@ -35,25 +36,22 @@ function app() {
                     location.hash = "splash"
                 }
             })
+
+            Backbone.history.start()
         },
 
         showBandCreator: function() {
             DOM.render(<DashPage view="createBand" />, document.querySelector('.container'))
         },
 
-        // showBandPage: function() {
-        //     var myMod = new Models.UserModel(ref.getAuth().uid)
-        //     myMod.once('sync',function() {
-        //         var BandId = myMod.get('band_id')
-        //         var usersInBand = new Collections.UsersByBandId(BandId)
-        //         DOM.render(<BandPage BandId={BandId} postColl={postColl} membersColl={usersInBand}/>, document.querySelector('.container'))                
-        //     })
-        // },
-
         doLogOut: function() {
             ref.unauth()
             location.hash = "splash"
         },
+
+        // redirect: function() {
+        //     location.hash = "splash"
+        // },
 
         showSplashPage: function() {
             DOM.render(<SplashPage logUserIn={this._logUserIn.bind(this)} createUser={this._createUser.bind(this)} />, document.querySelector('.container'))
@@ -87,9 +85,6 @@ function app() {
                 })
             }
 
-            // userMod.once('sync',function() {
-            //     reactRenderBandComponent(userMod)
-            // })
         },
 
         _logUserIn: function(email,password){
@@ -126,8 +121,8 @@ function app() {
         }
     })
 
-    var pr = new Router()
-    Backbone.history.start()
+    var rtr = new Router()
+    // Backbone.history.start()
 }
 
 app()
