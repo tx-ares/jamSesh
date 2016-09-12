@@ -8,4 +8,5 @@ import Firebase from 'firebase'
   };
   var ref = Firebase.initializeApp(config);
 
+
 export default ref

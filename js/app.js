@@ -19,7 +19,7 @@ function app() {
             'dash': "showDashPage",
             'band': "showBandPage",
             'logout': "doLogOut",
-            '*default': "showSplashPage"
+            '*default': "redirect"
         },
 
         initialize: function() {
@@ -49,9 +49,9 @@ function app() {
             location.hash = "splash"
         },
 
-        // redirect: function() {
-        //     location.hash = "splash"
-        // },
+        redirect: function() {
+            location.hash = "splash"
+        },
 
         showSplashPage: function() {
             DOM.render(<SplashPage logUserIn={this._logUserIn.bind(this)} createUser={this._createUser.bind(this)} />, document.querySelector('.container'))
