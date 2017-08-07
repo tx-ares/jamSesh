@@ -9,8 +9,8 @@ import ref from './fbRef'
 import {SplashPage,DashPage,BandPage} from './views'
 import {Models,Collections} from './models'
 
-function app() {
-    console.log("CHECK!") 
+function app() { 
+    console.log("CHECK FROM APP.JS")
     // start app
     // new Router()
     var Router = Backbone.Router.extend({
