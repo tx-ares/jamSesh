@@ -1,10 +1,323 @@
-* {
-	font-family: Helvetica, Arial, sans-serif;
-	box-sizing: border-box;
+@import '../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+
+/**
+ * BOX-SIZING
+ */
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    transition-duration: 0.2s;
+    transition-property: all;//opacity, transform, color, background-color, border-color, z-index, background-image;
+    transition-timing-function: ease;
 }
 
-h1 {
-	font-size: 300px;
-	text-align: center;
-	color: fuchsia;
+/**
+ * GRIDS
+ */
+
+.grid {
+    display: block;
+    text-align: justify;
+    font-size: 0;
+    position: relative;
+
+    > * {
+        display: inline-block;
+        width: 100%;
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    &:after {
+        display: table;
+        width: 100%;
+    }
 }
+
+@mixin grid_r($col, $width, $padding: 0) {
+    @media screen and (min-width: #{$width}px) {
+        .grid-#{$col}-#{$width} {
+            & > * {
+                width: #{100/$col}%;
+                padding: #{$padding}px;
+            }
+        }
+    }
+}
+
+@mixin grid($col, $padding: 0) {
+    .grid-#{$col} {
+        & > * {
+            width: #{100/$col}%;
+            padding: #{$padding}px;
+        }
+    }
+}
+
+@include grid(2);
+@include grid(4);
+@include grid(8);
+@include grid_r(2,400);
+@include grid_r(2,800);
+@include grid_r(4,400);
+@include grid_r(4,800);
+@include grid_r(8,800);
+@include grid_r(8,1024);
+@include grid_r(8,1280);
+
+/**
+ * GENERAL
+ */
+
+// img {
+//     max-width: 100%;
+// }
+// body {
+//     font-family: 'San Francisco', 'Helvetica', 'Trebuchet MS', Arial, sans-serif;
+// }
+
+/**
+ * PACE (automatic pre-loader thingy)
+ */
+
+.pace {
+    pointer-events: none;
+    user-select: none;
+    transition: all 1s ease;
+    .pace-progress {
+        background: #2299dd;
+        position: fixed;
+        z-index: 2000;
+        top: 0;
+        right: 100%;
+        width: 100%;
+        height: 2px;
+        transition: all 1s ease;
+    }
+}
+
+.pace-inactive {
+    opacity: 0;
+}
+
+.pace-active {
+    opacity: 1;
+}
+
+/**
+ * App code
+ */
+ 
+ body { 
+    // direction: rtl;
+    background-color: rgb(11, 34, 63);
+    background: url("http://i.imgur.com/aG5qrhF.jpg?1") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+
+    .loginContainer {
+        // border: 5px solid #555;
+        text-align: center;
+        padding: 1em;
+        margin: 18em auto;
+    }
+
+    .banner {
+        display: block;
+        width: 80%;
+        height: 80%;
+        margin: auto;
+        // border: 3px solid violet;
+        // background-color: rgba(100,10,190,.5);
+    }
+
+ .dashContainer {
+    background-color: rgba(11, 34, 63, .7);
+
+    // display: flex;
+    // align-items: flex-start;
+    // text-align: left;
+    color: #ddd;
+
+    .navBar {
+        background-color: rgba(11, 34, 63, .5);
+
+        a {
+            background: #555;
+            color: #ddd;
+            border-radius: 5%;
+            text-decoration: none;
+            padding: 1em 2em;
+            margin-left: 3.5em;
+        }
+    }   
+
+    .profileContainer {
+        margin-top:20px;
+    }
+
+    .posts {
+        background-color: rgba(120,120,120,.5);
+        // border: 3px solid rgba(120,120,120,1);
+        // width: 30%;
+        text-align: left;
+        vertical-align: top;
+
+            .postBoxContainer {
+                display:inline-block;
+                vertical-align: top;
+            }
+                .postBox {
+                    display:inline-block;
+                    height:120px;
+                    width:120px;
+                    margin:30px;
+                    // border: 3px solid rgba(120,120,120,.5);
+                    background-color: rgba(120,120,120,.5);       
+                }   
+        }
+            p {
+                // color: red;
+                margin: auto;
+            }
+    
+
+    .members {
+        // border: 3px solid rgba(120,120,120,1);
+        // background-color: rgba(120,120,120,.5);
+        text-align: left;
+        vertical-align: top;
+
+        input {
+            display: block;
+            padding: .5em;
+            width: 100%;
+            margin: 3em auto;
+        }
+
+        .member {
+            button {
+                display: inline-block;
+            }
+            p {
+                font-size: medium;
+                display: inline-block;
+            }
+
+        }
+    }
+
+    .message {
+        border: 3px solid #555;
+        width: 80%;
+        display: inline-block;
+        vertical-align: top;
+    }
+ 
+
+    .profile {
+        display: inline-block;
+        max-width: 30%;
+        margin: 5% 5%;
+        background-color: rgba(140,140,140,.5);
+        border: 3px solid rgba(140,140,140,1); 
+
+        .profilePic{
+            border-radius: 10px;
+            width:30%;
+            
+        }
+
+    }
+
+    .createBandbtn {
+        display:block;
+    }
+
+    .createBandBar {
+        display: inline-block;
+        width: 45%;
+        vertical-align: top;
+        margin: 5% 5%;
+        background-color: rgba(40,240,140,.5);
+        border: 3px solid rgba(40,240,140,1);
+        }
+
+    .bandBar {
+        display: inline-block;
+        width: 45%;
+        vertical-align: top;
+        margin: 0% 5%;
+        background-color: rgba(40,240,40,.5);
+        border: 3px solid rgba(40,240,40,1);
+        
+        .bandPic {
+                display: inline-block;
+                border-radius:50px;
+                width:50px;
+                height:50px;
+                margin:-2px 10px;
+                background-color:rgba(40,40,40,.5);
+                border: 3px solid rgba(40,40,40,1);
+            }
+
+            .infoContainer {
+                display:inline-block;
+
+                p {
+                    margin: 2px auto;
+
+                }
+        }
+    }
+
+    .scheduleContainer {
+        background-color: rgba(120,120,120,.5);
+        // border: 3px solid rgba(120,120,120,1);
+
+    }
+
+    .messenger {
+        display: inline-block;
+        width: 50%;
+        margin: 5% auto;
+        background-color: rgba(240,40,140,.5);
+        border: 3px solid rgba(240,40,140,1);
+
+        textarea {
+            margin: 20px auto;
+        }
+    }
+
+    li {
+        list-style: none;
+    }
+
+    input {
+        display: inline-block;
+        padding: 1em;
+        // width: 80%;
+        margin: auto;
+    }
+
+    h1 {
+        margin-top:.8em;
+        margin-bottom:.5em;
+    }
+
+    textarea {
+        display: block;
+    }
+}
+
