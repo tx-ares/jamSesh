@@ -59,7 +59,7 @@ function app() {
         },
 
         showDashPage: function() {
-            var uid = ref.getAuth().uid
+            var uid = ref.auth().currentUser;
             // var bandColl = new BandCollection()
             // var membershipColl = new MembershipCollection()
             // DOM.render(<DashPage bandColl={bandColl} membershipColl={membershipColl}/> ,document.querySelector('.container'))
@@ -90,16 +90,13 @@ function app() {
 
         _logUserIn: function(email,password){
             console.log(email,password)
-            ref.authWithPassword({
-                email: email,
-                password: password
-            }, function(err,authData) {
-                if (err) console.log(err)
-                else {
-                    location.hash = "dash"
-                }
-              }
-            )
+            ref.auth().signInWithEmailAndPassword(email,password)
+                    .then(function(){
+                        location.hash = "dash"
+                    })
+                    .catch(function(error) {
+                        console.log(error)
+                    })        
         },
 
         _createUser: function(email,password) {
