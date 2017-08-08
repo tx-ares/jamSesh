@@ -27,12 +27,13 @@ function app() {
             // this.ref = new Firebase('https://jamcamp.firebaseio.com/')
             // window.ref = ref
             console.log("initialize fired")
-            if (!ref.getAuth()) {
+
+            if (!ref.auth().currentUser) {
                 location.hash = "splash"
             }
 
             this.on('route', function() {
-                if (!ref.getAuth()) {
+                if (!ref.auth().currentUser) {
                     location.hash = "splash"
                 }
             })
