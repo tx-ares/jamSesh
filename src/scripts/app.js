@@ -77,7 +77,7 @@ function app() {
                 DOM.render(<BandPage bandId={bandId} postColl={postsInBand} memberColl={usersInBand}/>, document.querySelector('.container') )               
             }
 
-            var userMod = new Models.UserModel(ref.getAuth().uid)
+            var userMod = new Models.UserModel(ref.auth().uid)
 
             if (typeof userMod.id !== 'undefined') reactRenderBandComponent(userMod)
             else {
