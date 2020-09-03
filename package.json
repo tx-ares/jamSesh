@@ -76,7 +76,7 @@
     "koa": "^2.0.0-alpha.3",
     "koa-passport": "^2.0.1",
     "koa-router": "^7",
-    "node-sass": "^3.4",
+    "node-sass": "^4.14",
     "npm-run-all": "^1.2",
     "pm2": "^1.0",
     "postcss-cli": "^2.5.1",
